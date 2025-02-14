@@ -92,7 +92,6 @@ RegisterNetEvent('rs-policecars:buyVehicleConfirmed', function(vehicleModel)
                     TriggerClientEvent('rs-policecars:spawnVehicle', src, vehicleModel, spawnCoords, plate)
                     TriggerClientEvent('QBCore:Notify', src, 'You got a ' .. vehicleToBuy.label .. ' purchased for $' .. vehicleToBuy.price, 'success')
                     
-                    -- Sleutels genereren voor het voertuig
                     TriggerClientEvent('vehiclekeys:client:SetOwner', src, plate)
 
                     sendToDiscord(vehicleToBuy.label, vehicleToBuy.price, GetPlayerName(src), Player.PlayerData.steam)
