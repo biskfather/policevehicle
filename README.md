@@ -8,7 +8,7 @@ It also has a discord webhook
 
   dependency  
   ox_lib  
-  ox_target
+  qb-target
 
 
 ![image](https://github.com/user-attachments/assets/ad4c4cfc-6c68-4f59-bf2f-e824c438c8c0)
