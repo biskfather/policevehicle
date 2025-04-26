@@ -1,7 +1,6 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local lib = exports.ox_lib  
 
-
 CreateThread(function()
     local npc = Config.NPC
     RequestModel(npc.model)
@@ -14,17 +13,21 @@ CreateThread(function()
     SetEntityInvincible(ped, true)
     SetBlockingOfNonTemporaryEvents(ped, true)
 
-    exports.ox_target:addLocalEntity(ped, {
-        {
-            name = npc.targetName,
-            label = npc.label,
-            icon = "fa-solid fa-car",
-            onSelect = function()
-                QBCore.Functions.TriggerCallback('rs-policecars:getAvailableVehicles', function(vehicles)
-                    TriggerEvent('rs-policecars:openMenu', vehicles)
-                end)
-            end
-        }
+    exports['qb-target']:AddTargetEntity(ped, {
+        options = {
+            {
+                event = 'rs-policecars:openMenu',
+                icon = 'fa-solid fa-car',
+                label = npc.label,
+                canInteract = function()
+                    QBCore.Functions.TriggerCallback('rs-policecars:getAvailableVehicles', function(vehicles)
+                        TriggerEvent('rs-policecars:openMenu', vehicles)
+                    end)
+                    return true
+                end
+            }
+        },
+        distance = 2.0
     })
 end)
 
