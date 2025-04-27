@@ -1,7 +1,7 @@
 # policevehicle
 This is a script where you can buy police cars and put them in your garage.
-I tested it on Qbox but I'm sure it will work with QBcore too.
-it only works with ranks so Officer and not grade 1 
+this has been tested and works with qbcore and qb-target 
+it only works with ranks not grades
 It also has a discord webhook
 
 
