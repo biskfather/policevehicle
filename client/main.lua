@@ -1,6 +1,14 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local lib = exports.ox_lib  
 
+local dealerPed = nil
+
+local targetOption = {
+    name = 'policevehicle_dealer',
+    icon = 'fa-solid fa-car',
+    distance = 2.0
+}
+
 CreateThread(function()
     local npc = Config.NPC
     RequestModel(npc.model)
@@ -12,23 +20,35 @@ CreateThread(function()
     FreezeEntityPosition(ped, true)
     SetEntityInvincible(ped, true)
     SetBlockingOfNonTemporaryEvents(ped, true)
+    SetModelAsNoLongerNeeded(npc.model)
 
-    exports['qb-target']:AddTargetEntity(ped, {
-        options = {
-            {
-                event = 'rs-policecars:openMenu',
-                icon = 'fa-solid fa-car',
-                label = npc.label,
-                canInteract = function()
-                    QBCore.Functions.TriggerCallback('rs-policecars:getAvailableVehicles', function(vehicles)
-                        TriggerEvent('rs-policecars:openMenu', vehicles)
-                    end)
-                    return true
-                end
-            }
-        },
-        distance = 2.0
+    dealerPed = ped
+
+    Target.addLocalEntity(ped, {
+        name = targetOption.name,
+        icon = targetOption.icon,
+        label = npc.label,
+        distance = npc.targetDistance or targetOption.distance,
+        onSelect = function()
+            QBCore.Functions.TriggerCallback('rs-policecars:getAvailableVehicles', function(vehicles)
+                TriggerEvent('rs-policecars:openMenu', vehicles)
+            end)
+        end
     })
+end)
+
+AddEventHandler('onResourceStop', function(resource)
+    if resource ~= GetCurrentResourceName() then return end
+
+    if dealerPed and DoesEntityExist(dealerPed) then
+        Target.removeLocalEntity(dealerPed, {
+            name = targetOption.name,
+            label = Config.NPC.label
+        })
+        DeleteEntity(dealerPed)
+    end
+
+    dealerPed = nil
 end)
 
 RegisterNetEvent('rs-policecars:confirmBuy', function(vehicleModel)
