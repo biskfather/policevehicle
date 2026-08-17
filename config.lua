@@ -1,5 +1,10 @@
 Config = {}
 
+-- Target resource used for the dealership ped.
+--   'ox_target' -> https://github.com/TheOrderFivem/ox_target (qb-core compatible fork)
+--   'qb-target' -> legacy qb-target
+--   'auto'      -> use whichever of the two is started (ox_target takes priority)
+Config.Target = 'auto'
 
 Config.WebhookURL = "Url"
 Config.WebhookAvatar = "https://imgur.com/xXbcnU7.png" 
